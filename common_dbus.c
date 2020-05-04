@@ -113,7 +113,7 @@ int dbus_set_metodo(char *metodo, char *array_opt, size_t array_opt_pos){
 }
 
 int dbus_set_firma(int cant_parametros, char *array_opt, size_t array_opt_pos){
-    int padding = (26 - cant_parametros) % 8;
+    int padding = (34 - cant_parametros) % 8; 
     unsigned int size_of_buffer = padding + cant_parametros + 6;
     char *buffer = (char *) malloc(size_of_buffer);
     memset(buffer, 0, size_of_buffer);
@@ -178,8 +178,6 @@ int dbus_init_protocol(const char* path, socket_t *self){
     int bytes_clean_read = 0, header_length = 0, body_length = 0;
     while (!feof(fp)){
         char header[512], body[256], mssg_rcv[4] = "";
-        memset(header, 0, sizeof(header));
-        memset(body, 0, sizeof(body));
         fseek(fp, bytes_clean_read, SEEK_SET);
         char *read_line = file_read_line(fp);
         char *clean_line = (char*) malloc(strlen(read_line));
