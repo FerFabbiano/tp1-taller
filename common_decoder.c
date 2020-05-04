@@ -32,13 +32,10 @@ data_t decoder_get_ruta(char *array_opt, size_t pos_array_opt, data_t data){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    char *ruta = (char*) malloc(numero);
-    memcpy(ruta, &array_opt[pos_array_opt + 8], numero);
-    data.ruta = (char*) malloc(numero*sizeof(char)+1);
-    memcpy(data.ruta, ruta, numero);
+    memset(data.ruta, 0, 32);
+    memcpy(data.ruta, &array_opt[pos_array_opt + 8], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
-    free(ruta);
     return data;
 }
 
@@ -49,13 +46,10 @@ data_t decoder_get_destino(char *array_opt, size_t pos_array_opt, data_t data){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    char *destino = (char*) malloc(numero);
-    memcpy(destino, &array_opt[pos_array_opt + 8], numero);
-    data.destino = (char*) malloc(numero*sizeof(char)+1);
-    memcpy(data.destino, destino, numero);
+    memset(data.destino, 0, 32);
+    memcpy(data.destino, &array_opt[pos_array_opt + 8], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
-    free(destino);
     return data;
 }
 
@@ -66,13 +60,10 @@ data_t decoder_get_interfaz(char *array_opt, size_t pos_array_opt, data_t data){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    char *interfaz = (char*) malloc(numero);
-    memcpy(interfaz, &array_opt[pos_array_opt + 8], numero);
-    data.interfaz = (char*) malloc(numero*sizeof(char)+1);
-    memcpy(data.interfaz, interfaz, numero);
+    memset(data.interfaz, 0, 32);
+    memcpy(data.interfaz, &array_opt[pos_array_opt + 8], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
-    free(interfaz);
     return data;
 }
 
@@ -83,13 +74,10 @@ data_t decoder_get_metodo(char *array_opt, size_t pos_array_opt, data_t data){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    char *metodo = (char*) malloc(numero);
-    memcpy(metodo, &array_opt[pos_array_opt + 8], numero);
-    data.metodo = (char*) malloc(numero*sizeof(char)+1);
-    memcpy(data.metodo, metodo, numero);
+    memset(data.metodo, 0, 32);
+    memcpy(data.metodo, &array_opt[pos_array_opt + 8], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
-    free(metodo);
     return data;
 }
 
@@ -138,10 +126,6 @@ int decoder_print_data(char *array_opt, size_t size_array_opt){
     if (length_firma == 0){
         printf("\n");
     }
-    free(data.ruta);
-    free(data.destino);
-    free(data.interfaz);
-    free(data.metodo);
     return 0;
 }
 
@@ -191,7 +175,7 @@ int decoder_print_id_number(char *header){
 
 int decoder_rcv_mssg(socket_t *self){
     int socket_close = 0;
-    while(true && (socket_close == 0)){
+    while (true && (socket_close == 0)){
         char header1[16]; 
         socket_close = socket_receive(self, header1, sizeof(header1));
         if (socket_close == 1){
@@ -203,7 +187,7 @@ int decoder_rcv_mssg(socket_t *self){
         socket_receive(self, array_opt, size_array_opt);
         decoder_print_data(array_opt, size_array_opt);
         int size_body = decoder_get_size_of_body(header1);
-        if(size_body != 0){
+        if (size_body != 0){
             char body[size_body];
             socket_receive(self, body, size_body);
             decoder_print_body(body, size_body);
