@@ -19,9 +19,9 @@ int dbus_set_array_opciones(char *clean_line, char *array_opt){
     memset(argument, 0, sizeof(argument));
     file_get_argument(clean_line, argument, read_pos+3);
     array_opt_pos += dbus_set_metodo(argument, array_opt, array_opt_pos);
-    int amount_of_parameter = file_get_amout_of_parametres(clean_line);
-    if (amount_of_parameter != 0){
-        array_opt_pos += dbus_set_firma(amount_of_parameter, array_opt, array_opt_pos);
+    int parameters = file_get_amout_of_parametres(clean_line);
+    if (parameters != 0){
+        array_opt_pos += dbus_set_firma(parameters, array_opt, array_opt_pos);
     }
     return array_opt_pos;
 }   
@@ -168,7 +168,6 @@ int dbus_set_data_header(uint32_t id_number, char *clean_line, char *header){
     uint32_t opt_array_length = dbus_set_array_opciones(clean_line, array_opt);
     * (int *) &header[12] = opt_array_length;
     memcpy(&header[16], array_opt, opt_array_length);
-    //memcpy(&header[16+opt_array_length], body, body_length);
     return 16 + opt_array_length;
 }
 
@@ -197,7 +196,7 @@ int dbus_init_protocol(const char* path, socket_t *self){
         body_length = dbus_set_body(clean_line, body);
         socket_send(self, header, 16);
         socket_send(self, &header[16], header_length - 16);
-        if (body_length != 0 && header_length != 0){
+        if (body_length != 0){
             socket_send(self, body, body_length);
         }
         socket_receive(self, mssg_rcv, sizeof(mssg_rcv));

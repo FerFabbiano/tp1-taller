@@ -183,14 +183,14 @@ int decoder_rcv_mssg(socket_t *self){
         }
         int size_array_opt = decoder_get_size_of_array_opt(header1);
         decoder_print_id_number(header1);
-        char array_opt[size_array_opt];
-        socket_receive(self, array_opt, size_array_opt);
-        decoder_print_data(array_opt, size_array_opt);
+        const char array_opt[size_array_opt];
+        socket_receive(self, (char*)array_opt, size_array_opt);
+        decoder_print_data((char*)array_opt, size_array_opt);
         int size_body = decoder_get_size_of_body(header1);
         if (size_body != 0){
-            char body[size_body];
-            socket_receive(self, body, size_body);
-            decoder_print_body(body, size_body);
+            const char body[size_body];
+            socket_receive(self, (char*)body, size_body);
+            decoder_print_body((char*)body, size_body);
         }
         char mssg_send[3] = "OK\n";
         socket_send(self, mssg_send, sizeof(mssg_send));
