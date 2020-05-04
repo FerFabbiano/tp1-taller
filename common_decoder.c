@@ -111,7 +111,7 @@ int decoder_print_data(char *array_opt, size_t size_array_opt){
         (parameter_type, array_opt, data.pos_array_opt, data);
         amount_parameters ++;
     }
-    printf("* Destino: %s\n* Path: %s\n* Interfaz: %s\n* Método: %s\n",
+    printf("* Destino: %s\n* Ruta: %s\n* Interfaz: %s\n* Metodo: %s\n",
     data.destino, data.ruta, data.interfaz, data.metodo);
     return 0;
 }
@@ -137,7 +137,7 @@ int decoder_print_body(char *body, size_t size_body){
     if (size_body == 0){
         return 0;
     }
-    printf("* Parámetros: \n");
+    printf("* Parametros: \n");
     while (data.pos_body < (size_body)){
         data = decoder_get_parameter(body, data.pos_body, data);
         printf("    * %s\n", data.parametro);
