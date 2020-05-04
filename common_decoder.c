@@ -136,6 +136,7 @@ body_t decoder_get_parameter(char *body, size_t pos_body, body_t data){
 int decoder_print_body(char *body, size_t size_body){
     body_t data;
     data.pos_body = 0;
+    memset(data.parametro, 0, sizeof(data.parametro));
     if (size_body == 0){
         return 0;
     }
