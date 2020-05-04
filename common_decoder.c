@@ -22,6 +22,9 @@ int decoder_get_size_of_body(char *header){
         buff[i] = header[4+i];
     }
     numero = to_little_endian(numero);
+    if (numero == 0){
+        printf("\n");
+    }
     return numero;
 }
 
@@ -97,35 +100,19 @@ size_t pos_array_opt, data_t data){
     return data;
 }
 
-int decoder_get_size_of_firma(char *array_opt, size_t size_array_opt){
-    int length_firma = 0;
-    int i = 0;
-    while (array_opt[size_array_opt - length_firma] != 9
-    && (i < size_array_opt)){
-        length_firma += 1;
-    }
-    if ((length_firma+1) == size_array_opt){
-        return 0;
-    }else{
-        return length_firma+1;
-    }
-}
-
 int decoder_print_data(char *array_opt, size_t size_array_opt){
     data_t data;
     data.pos_array_opt = 0;
     int parameter_type = 0;
-    int length_firma = decoder_get_size_of_firma(array_opt, size_array_opt);
-    while (data.pos_array_opt < (size_array_opt - length_firma)){
+    int amount_parameters = 0;
+    while (amount_parameters < 4){
         parameter_type = array_opt[data.pos_array_opt];
         data = decoder_manage_type(parameter_type, array_opt, 
         data.pos_array_opt, data);
+        amount_parameters ++;
     }
     printf("* Destino: %s\n* Path: %s\n* Interfaz: %s\n* Metodo: %s\n",
     data.destino, data.ruta, data.interfaz, data.metodo);
-    if (length_firma == 0){
-        printf("\n");
-    }
     return 0;
 }
 

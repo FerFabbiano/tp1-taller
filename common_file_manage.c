@@ -67,3 +67,16 @@ int file_get_parameter(char *clean_line, char *parameter, size_t pos){
     }
     return pos;
 }
+
+FILE* file_open(const char *path){
+    FILE *fp;
+    if (path == NULL){
+        fp = stdin;
+    }else{
+        fp = fopen(path, "r");
+    }
+    if (fp == NULL){
+        return NULL;
+    }
+    return fp;
+}

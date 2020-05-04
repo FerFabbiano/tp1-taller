@@ -23,4 +23,6 @@ int file_get_amout_of_parametres(char *clean_line);
 /* Obtengo un parámetro de mi método */
 int file_get_parameter(char *clean_line, char *parameter, size_t pos);
 
+FILE* file_open(const char *path);
+
 #endif

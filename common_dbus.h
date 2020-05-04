@@ -9,7 +9,7 @@
 #include "common_others.h"
 
 /* Inicializo el protocolo, leo linea proceso, y envio */
-int dbus_init_protocol(const char* path, socket_t *self);
+int dbus_init_protocol(const char *path, socket_t *self);
 
 /*
 Setea los primeros 16 bytes del header según el protocolo a implementar. 

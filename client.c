@@ -9,7 +9,7 @@ int main(int argc, char const *argv[]){
     if (argc == 4){
         dbus_init_protocol(argv[3], &s);
     }else{
-        dbus_init_protocol((const char*)stdin, &s);
+        dbus_init_protocol(NULL, &s);
     }
     socket_shutdown(&s, SHUT_RDWR);
     socket_destroy(&s); 

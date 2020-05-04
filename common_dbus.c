@@ -173,18 +173,11 @@ int dbus_set_data_header(uint32_t id_number, char *clean_line, char *header){
 
 int dbus_init_protocol(const char* path, socket_t *self){
     FILE *fp;
-    fp = fopen(path, "r");
-    if (fp == NULL){
-        return 1;
-    }
-    int bytes_clean_read = 0;
+    fp = file_open(path);
     uint32_t id_number = 1;
-    int header_length = 0;
-    int body_length = 0;
+    int bytes_clean_read = 0, header_length = 0, body_length = 0;
     while (!feof(fp)){
-        char header[256];
-        char body[128];
-        char mssg_rcv[3] = "";
+        char header[256], body[128], mssg_rcv[3] = "";
         memset(header, 0, sizeof(header));
         memset(body, 0, sizeof(body));
         fseek(fp, bytes_clean_read, SEEK_SET);
