@@ -137,7 +137,7 @@ int decoder_print_body(char *body, size_t size_body){
     if (size_body == 0){
         return 0;
     }
-    printf("* Parametros: ");
+    printf("* Parametros:");
     printf("\n");
     while (data.pos_body < (size_body)){
         data = decoder_get_parameter(body, data.pos_body, data);
