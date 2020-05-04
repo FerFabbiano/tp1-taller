@@ -7,15 +7,15 @@
 #include "common_dbus.h"
 
 typedef struct data{
-    char ruta[32];
-    char destino[32];
-    char metodo[32];
-    char interfaz[32];
+    char ruta[128];
+    char destino[128];
+    char metodo[128];
+    char interfaz[128];
     int pos_array_opt;
 }data_t;
 
 typedef struct body{
-    char parametro[32];
+    char parametro[256];
     int pos_body;
 }body_t;
 

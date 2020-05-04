@@ -3,7 +3,7 @@
 int dbus_set_array_opciones(char *clean_line, char *array_opt){
     size_t array_opt_pos = 0;
     size_t read_pos = 0;
-    char argument[32];
+    char argument[128];
     memset(argument, 0, sizeof(argument));
     file_get_argument(clean_line, argument, 0);
     read_pos += strlen(argument);
@@ -137,7 +137,7 @@ int dbus_set_body(char *clean_line, char *body){
         return 0;
     }
     int pos_line = 0;
-    char parameter[32];
+    char parameter[256];
     uint32_t pos_body = 0;
     for (int i = 0; i < cant_param; i++){
         memset(parameter, 0, sizeof(parameter));
@@ -154,8 +154,8 @@ int dbus_set_body(char *clean_line, char *body){
 }
 
 int dbus_set_data_header(uint32_t id_number, char *clean_line, char *header){
-    char array_opt[256];
-    char body[256];
+    char array_opt[512];
+    char body[512];
     memset(array_opt, 0, sizeof(array_opt));
     memset(body, 0, sizeof(body));
     uint32_t body_length = to_little_endian(dbus_set_body(clean_line, body));
@@ -177,7 +177,7 @@ int dbus_init_protocol(const char* path, socket_t *self){
     uint32_t id_number = 1;
     int bytes_clean_read = 0, header_length = 0, body_length = 0;
     while (!feof(fp)){
-        char header[256], body[128], mssg_rcv[3] = "";
+        char header[512], body[256], mssg_rcv[4] = "";
         memset(header, 0, sizeof(header));
         memset(body, 0, sizeof(body));
         fseek(fp, bytes_clean_read, SEEK_SET);

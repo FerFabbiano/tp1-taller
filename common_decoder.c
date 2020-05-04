@@ -123,13 +123,10 @@ body_t decoder_get_parameter(char *body, size_t pos_body, body_t data){
         buff[i] = body[pos_body + i];
     }
     numero = to_little_endian(numero);
-    char *parametro = (char*) malloc(numero);
     for (int i = 0; i < numero; i++){
-        parametro[i] = body[pos_body+4+i];
+        data.parametro[i] = body[pos_body+4+i];
     }
-    memcpy(data.parametro, parametro, numero);
     data.pos_body += numero + 5;
-    free(parametro);
     return data;
 }
 
@@ -180,7 +177,10 @@ int decoder_rcv_mssg(socket_t *self){
             socket_receive(self, (char*)body, size_body);
             decoder_print_body((char*)body, size_body);
         }
-        char mssg_send[3] = "OK\n";
+        char mssg_send[4];
+        memset(mssg_send, 0, 3);
+        strcpy(mssg_send, "OK\n");
+        printf("%s\n", mssg_send);
         socket_send(self, mssg_send, sizeof(mssg_send));
     }
     return 0;
