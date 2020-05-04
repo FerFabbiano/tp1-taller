@@ -107,7 +107,8 @@ int decoder_print_data(char *array_opt, size_t size_array_opt){
     int amount_parameters = 0;
     while (amount_parameters < 4){
         parameter_type = array_opt[data.pos_array_opt];
-        data = decoder_manage_type(parameter_type, array_opt, data.pos_array_opt, data);
+        data = decoder_manage_type
+        (parameter_type, array_opt, data.pos_array_opt, data);
         amount_parameters ++;
     }
     printf("* Destino: %s\n* Path: %s\n* Interfaz: %s\n* Método: %s\n",
