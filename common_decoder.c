@@ -35,7 +35,6 @@ data_t decoder_get_ruta(char *array_opt, size_t pos_array_opt, data_t data){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    memset(data.ruta, 0, 32);
     memcpy(data.ruta, &array_opt[pos_array_opt + 8], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
@@ -49,7 +48,6 @@ data_t decoder_get_destino(char *array_opt, size_t pos_array_opt, data_t data){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    memset(data.destino, 0, 32);
     memcpy(data.destino, &array_opt[pos_array_opt + 8], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
@@ -63,7 +61,6 @@ data_t decoder_get_interfaz(char *array_opt, size_t pos_array_opt, data_t data){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    memset(data.interfaz, 0, 32);
     memcpy(data.interfaz, &array_opt[pos_array_opt + 8], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
@@ -77,7 +74,6 @@ data_t decoder_get_metodo(char *array_opt, size_t pos_array_opt, data_t data){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    memset(data.metodo, 0, 32);
     memcpy(data.metodo, &array_opt[pos_array_opt + 8], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
@@ -103,12 +99,15 @@ size_t pos_array_opt, data_t data){
 int decoder_print_data(char *array_opt, size_t size_array_opt){
     data_t data;
     data.pos_array_opt = 0;
+    memset(data.destino, 0, sizeof(data.destino));
+    memset(data.ruta, 0, sizeof(data.ruta));
+    memset(data.metodo, 0, sizeof(data.metodo));
+    memset(data.interfaz, 0, sizeof(data.interfaz));
     int parameter_type = 0;
     int amount_parameters = 0;
     while (amount_parameters < 4){
         parameter_type = array_opt[data.pos_array_opt];
-        data = decoder_manage_type(parameter_type, array_opt, 
-        data.pos_array_opt, data);
+        data = decoder_manage_type(parameter_type, array_opt, data.pos_array_opt, data);
         amount_parameters ++;
     }
     printf("* Destino: %s\n* Path: %s\n* Interfaz: %s\n* Método: %s\n",

@@ -9,17 +9,19 @@ char* file_read_line(FILE *fp){
     if (aux < 0){
         return NULL;
     }
-    char *full_line = (char*) malloc(BUFF_READ_SIZE);
+    char *full_line = (char*) malloc(BUFF_READ_SIZE+1);
     memcpy(full_line, buffer, sizeof(buffer));
+    full_line[BUFF_READ_SIZE] = '\0';
     int n = 2;
     while (strchr(full_line, '\n') == NULL){
         memset(buffer, 0, sizeof(buffer));
-        full_line = realloc(full_line, n*BUFF_READ_SIZE);
+        full_line = realloc(full_line, n*(BUFF_READ_SIZE+1));
         aux = fread(buffer, 1, sizeof(buffer), fp);
         if (aux < 0){
             return NULL;
         }
         memcpy(&full_line[(n-1)*BUFF_READ_SIZE], buffer, sizeof(buffer));
+        full_line[n*(BUFF_READ_SIZE)] = '\0';
         n++;
     }
     return full_line;
