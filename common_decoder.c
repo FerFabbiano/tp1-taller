@@ -177,10 +177,7 @@ int decoder_rcv_mssg(socket_t *self){
             socket_receive(self, (char*)body, size_body);
             decoder_print_body((char*)body, size_body);
         }
-        char mssg_send[4];
-        memset(mssg_send, 0, 3);
-        strcpy(mssg_send, "OK\n");
-        printf("%s\n", mssg_send);
+        char mssg_send[4] = "OK\n";
         socket_send(self, mssg_send, sizeof(mssg_send));
     }
     return 0;
