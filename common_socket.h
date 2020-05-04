@@ -24,8 +24,16 @@ int socket_create(socket_t *self);
 
 int socket_destroy(socket_t *self);
 
+/*
+ Enlazo el socket a la interfaz y a un puerto determinado. Lo hago a través de bind. 
+ Una vez enlazado, queremos usar el socket para escuchar conexiones entrantes. 
+ Se van a ir encolando.
+ */
 int socket_bind_and_listen(socket_t *self, const char *service);
 
+/* 
+Acepto uno de los clientes y lo saco de la cola.
+*/
 int socket_accept(socket_t *self, socket_t *accepted_socket);
 
 int socket_connect(socket_t *self, const char *host_name, const char *service);

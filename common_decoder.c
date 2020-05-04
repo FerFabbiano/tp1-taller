@@ -185,55 +185,31 @@ int decoder_print_id_number(char *header){
         buff[i] = header[8 + i];
     }
     numero = to_little_endian(numero);
-    printf("* Id: 0x%x\n", numero);
-    return 0;
-}
-
-
-int funcion(){
-    FILE *file = fopen("hexdump.txt", "r+b");
-    char header[16];
-    char array_opt[119];
-    char aux[1];
-    char body[10];
-    
-    fread(header, 1, 16, file);
-    int size_array_opt = decoder_get_size_of_array_opt(header);
-    decoder_print_id_number(header);
-    
-    fread(array_opt, 1, size_array_opt, file);
-    decoder_print_data(array_opt, sizeof(array_opt));
-    int size_body = decoder_get_size_of_body(header);
-    
-    fread(aux, 1, 1, file);
-    
-    fread(body, 1, size_body, file);
-    decoder_print_body(body, size_body);
-    
-    fclose(file);
+    printf("* Id: %#010x\n", numero);
     return 0;
 }
 
 int decoder_rcv_mssg(socket_t *self){
-    char header1[16]; 
-    socket_receive(self, header1, sizeof(header1));
-    int size_array_opt = decoder_get_size_of_array_opt(header1);
-    
-    char array_opt[size_array_opt];
-    socket_receive(self, array_opt, size_array_opt);
-    decoder_print_data(array_opt, size_array_opt);
-    int size_body = decoder_get_size_of_body(header1);
-    
-    if(size_body != 0){
-        char body[size_body];
-        socket_receive(self, body, size_body);
-        decoder_print_body(body, size_body);
+    int socket_close = 0;
+    while(true && (socket_close == 0)){
+        char header1[16]; 
+        socket_close = socket_receive(self, header1, sizeof(header1));
+        if (socket_close == 1){
+            break;
+        }
+        int size_array_opt = decoder_get_size_of_array_opt(header1);
+        decoder_print_id_number(header1);
+        char array_opt[size_array_opt];
+        socket_receive(self, array_opt, size_array_opt);
+        decoder_print_data(array_opt, size_array_opt);
+        int size_body = decoder_get_size_of_body(header1);
+        if(size_body != 0){
+            char body[size_body];
+            socket_receive(self, body, size_body);
+            decoder_print_body(body, size_body);
+        }
+        char mssg_send[3] = "OK\n";
+        socket_send(self, mssg_send, sizeof(mssg_send));
     }
-    
-    char mssg_send[] = "OK\n";
-    socket_send(self, mssg_send, sizeof(mssg_send));
-    
-    printf("%i\n", size_array_opt);
-    decoder_print_id_number(header1);
     return 0;
 }

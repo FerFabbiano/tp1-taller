@@ -201,8 +201,8 @@ int dbus_init_protocol(const char* path, socket_t *self){
             socket_send(self, body, body_length);
         }
         socket_receive(self, mssg_rcv, sizeof(mssg_rcv));
-        printf("0x%x: %s\n", id_number, mssg_rcv);
-        bytes_clean_read += strlen(clean_line)+1;
+        printf("%#010x: %s", id_number, mssg_rcv);
+        bytes_clean_read += strlen(clean_line) + 1;
         id_number ++;
         free(clean_line);
     }

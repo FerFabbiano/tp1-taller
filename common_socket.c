@@ -21,11 +21,6 @@ int socket_destroy(socket_t *self){
     return 0;
 }
 
-/*
- Enlazo el socket a la interfaz y a un puerto determinado. Lo hago a través de bind. 
- Una vez enlazado, queremos usar el socket para escuchar conexiones entrantes. 
- Se van a ir encolando.
- */
 int socket_bind_and_listen(socket_t *self, const char *service){
     addrinfo hints, *results, *aux;
     int status = 0;
@@ -52,10 +47,6 @@ int socket_bind_and_listen(socket_t *self, const char *service){
     }
     return 0;
 }
-
-/* 
-Acepto uno de los clientes y lo saco de la cola.
-*/
 
 int socket_accept(socket_t *self, socket_t *accepted_socket){
     int acepted = 0;
@@ -107,22 +98,19 @@ int socket_send(socket_t *self, const char *buffer, size_t buf_length){
 
 int socket_receive(socket_t *self, char *buffer, size_t buf_length){
     ssize_t size_rcv, aux;
-    bool socket_is_close = false;
     size_rcv = 0;
     int s = self->socket;
-    while (socket_is_close == false){
+    while (size_rcv < buf_length){
         aux = 0;
-        aux = recv(s, &buffer[size_rcv], buf_length - size_rcv - 1, 0);
-        if (aux < 0){
+        aux = recv(s, &buffer[size_rcv], buf_length - size_rcv, 0);
+        if (aux <= 0){
             return ERROR;
-        }else if (aux == 0){
-            socket_is_close = true;
         }else{
             size_rcv += aux;
         }
     }
     return 0;
-} 
+}
 
 void socket_shutdown(socket_t *self, int channel){
     shutdown(self->socket, channel);
