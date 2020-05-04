@@ -5,14 +5,20 @@
 char* file_read_line(FILE *fp){
     char buffer[BUFF_READ_SIZE] = "";
     memset(buffer, 0, sizeof(buffer));
-    fread(buffer, 1, sizeof(buffer), fp);
+    int aux = fread(buffer, 1, sizeof(buffer), fp);
+    if (aux < 0){
+        return NULL;
+    }
     char *full_line = (char*) malloc(BUFF_READ_SIZE);
     memcpy(full_line, buffer, sizeof(buffer));
     int n = 2;
     while (strchr(full_line, '\n') == NULL){
         memset(buffer, 0, sizeof(buffer));
         full_line = realloc(full_line, n*BUFF_READ_SIZE);
-        fread(buffer, 1, sizeof(buffer), fp);
+        aux = fread(buffer, 1, sizeof(buffer), fp);
+        if (aux < 0){
+            return NULL;
+        }
         memcpy(&full_line[(n-1)*BUFF_READ_SIZE], buffer, sizeof(buffer));
         n++;
     }
