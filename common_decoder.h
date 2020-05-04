@@ -6,21 +6,20 @@
 #include <string.h>
 #include "common_dbus.h"
 
+#define MAX_SIZE 128
+
 typedef struct data{
-    char ruta[128];
-    char destino[128];
-    char metodo[128];
-    char interfaz[128];
+    char ruta[MAX_SIZE];
+    char destino[MAX_SIZE];
+    char metodo[MAX_SIZE];
+    char interfaz[MAX_SIZE];
     int pos_array_opt;
 }data_t;
 
 typedef struct body{
-    char parametro[256];
+    char parametro[2*MAX_SIZE];
     int pos_body;
 }body_t;
-
-
-int funcion();
 
 /* Obtengo el tamaño del body que me van a mandar. Información que
 contiene los primeros 16 bytes del header. */

@@ -54,6 +54,9 @@ int socket_accept(socket_t *self, socket_t *accepted_socket){
     if (acepted != -1){
         accepted_socket->socket = acepted;
     }
+    if (acepted == -1){
+        return ERROR;
+    }
     return 0;
 }
 
