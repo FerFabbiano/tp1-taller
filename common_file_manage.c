@@ -33,6 +33,7 @@ int file_clean_line(char *file_line, char *buffer_clean){
         buffer_clean[i] = file_line[i];
         i++;
     }
+    free(file_line);
     return 0;
 }
 
