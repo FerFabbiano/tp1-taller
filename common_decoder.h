@@ -62,6 +62,8 @@ int decoder_print_id_number(char *header);
 /* Imprimo los parámetros contenidos en el body, si es que los hay. */
 int decoder_print_body(char *body, size_t size_body);
 
+/* Recibo los mensajes provenientes del socket, y llamo a las funciones
+necesarias para imprimir los datos requeridos por pantalla. */
 int decoder_rcv_mssg(socket_t *self);
 
 #endif

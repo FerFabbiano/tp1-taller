@@ -20,8 +20,10 @@ typedef struct socket_t{
     int socket;
 }socket_t;  
 
+/* Creo el socket. */
 int socket_create(socket_t *self);
 
+/* Cierro el socket. */
 int socket_destroy(socket_t *self);
 
 /*
@@ -36,14 +38,21 @@ Acepto uno de los clientes y lo saco de la cola.
 */
 int socket_accept(socket_t *self, socket_t *accepted_socket);
 
+/* Función del cliente. Me conecto a un servidor. */
 int socket_connect(socket_t *self, const char *host_name, const char *service);
 
+/* Envio mensajes a través del socket. */
 int socket_send(socket_t *self, const char *buffer, size_t length);
 
+/* Recibo mensajes a través del socket. */
 int socket_receive(socket_t *self, char *buffer, size_t buf_length);
 
+/* Cierro los canales de comunicación del socket.
+Tanto de lectura como de escritura. */
 void socket_shutdown(socket_t *self, int channel);
 
+/* Seteo las hints, dependiendo se si me solicita el servidor, o
+el cliente. */
 void socket_set_hints(struct addrinfo *hints, int tipo);
 
 #endif
