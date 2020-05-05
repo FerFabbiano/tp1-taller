@@ -18,6 +18,8 @@
 
 	Del mismo modo, la manera en la que debía recibir los datos del lado del servidor me trajo complicaciones a la hora de pensarlo e imaginarmelo. Lo que hicé fue, desde el cliente, enviar la información en dos tandas (tres en caso de existir parámetros para ese llamado a procedimiento remoto). Asimismo, del lado del servidor, implementé dos (o tres) receive, cada uno correspondiente a cada envio del lado del cliente. Esto me peritió, con los primeros 16 bytes recibidos, conocer la información necesaria para poder desarrollar la desserialización. En estos bytes, los primeros 16 del header, tengo la información correspondiente a la longitud del array de opciones, la longitud del body (puedo determinar si existe tall body, o no). Incluso puedo saber e imprimir el id del mensaje. Una vez obtenidos estos tamaños, puedo crear los arreglos de carcateres con el tamaño necesario para hacer los siguientes receive, que contendrán el array de opciones y el body.
 
+<p align="center">
+<img src="https://user-images.githubusercontent.com/38590805/81076211-c5684a00-8ec1-11ea-86f9-80d3352d81a7.png" 			width=800 height=600>
 
 
 1. **Aclaraciones**
