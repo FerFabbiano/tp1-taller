@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Taller de Programación - TP1
 
 **Alumno**: Fernando Fabbiano
@@ -24,9 +23,3 @@
 
 	A la hora de encarar la "segunda parte" del Trabajo Práctico, es decir, codear el protocolo, me puse a escribir líneas de código sin antes ponerme a pensar detenidamente e investigar que me convenía para desarrolarlo. Esto llevo a que pasara varios dias, varias horas, sentado frente a la computadora, creyendo que estaba avanzando, pero siempre llegando a un punto en el que me encontraba sin entender que, y para que era lo que estaba codeando. Cuando me di cuenta de esto, decidí que primero era mejor entender a fondo como era que funcionaba el protocolo D-bus (me refiero a entender, al menos, la versión resumida de la implementación del protocolo que nos fue otorgado en la consigna), y hacer un seguimiento con papel y lápiz del "Ejemplo de uso real" dado en la consigna. Para cuando me di cuenta de que esto era necesario para encarar la resolución, me encontré con que había perdido mucho tiempo sin saber que es lo que estaba codeando, y por ende los días habían pasado y aún no habia avanzado mucho, por lo que el tiempo empezó también a jugarme encontra. Desde mi punto de vista, ese fue mi mayor problema a la hora de realizar este Trabajo, y no quería dejar de comentarlo en este informe. 
 	
-
-
-
-=======
->>>>>>> 86aee51ea45eb6c132b6befb69db1e08773f6a3f
-
