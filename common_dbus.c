@@ -38,14 +38,14 @@ int dbus_get_padding(int argument_length){
 
 int dbus_set_destino(char *destino, char *array_opt, size_t array_opt_pos){
     int padding = dbus_get_padding(strlen(destino));
-    unsigned int size_of_buffer = padding + (strlen(destino)+1) + 8;
+    unsigned int size_of_buffer =padding + (strlen(destino)+1) + BYTES_INI_OPC;
     char *buffer = (char *) malloc(size_of_buffer);
     memset(buffer, 0, size_of_buffer);
     uint32_t length_destino = to_little_endian(strlen(destino));
-    buffer[0] = 6;
-    buffer[1] = 1;
+    buffer[0] = TIPO_DESTINO;
+    buffer[1] = CANT_STRINGS;
     buffer[2] = 's';
-    buffer[3] = 0;
+    buffer[3] = BYTE_FIN_STRING;
     *(int *) &buffer[4] = length_destino;
     for (int i = 0; i < (length_destino); i++){
         buffer[4 + sizeof(length_destino) + i] = destino[i];
@@ -57,14 +57,14 @@ int dbus_set_destino(char *destino, char *array_opt, size_t array_opt_pos){
 
 int dbus_set_ruta(char *ruta, char *array_opt, size_t array_opt_pos){
     int padding = dbus_get_padding(strlen(ruta));
-    unsigned int size_of_buffer = padding + (strlen(ruta)+1) + 8;
+    unsigned int size_of_buffer = padding + (strlen(ruta)+1) + BYTES_INI_OPC;
     char *buffer = (char *) malloc(size_of_buffer);
     memset(buffer, 0, size_of_buffer);
     uint32_t length_ruta = to_little_endian(strlen(ruta));
-    buffer[0] = 1;
-    buffer[1] = 1;
+    buffer[0] = TIPO_RUTA;
+    buffer[1] = CANT_STRINGS;
     buffer[2] = 'o';
-    buffer[3] = 0;
+    buffer[3] = BYTE_FIN_STRING;
     *(int *) &buffer[4] = length_ruta;
     for (int i = 0; i < (length_ruta); i++){
         buffer[4 + sizeof(length_ruta) + i] = ruta[i];
@@ -76,14 +76,14 @@ int dbus_set_ruta(char *ruta, char *array_opt, size_t array_opt_pos){
 
 int dbus_set_interfaz(char *interfaz, char *array_opt, size_t array_opt_pos){
     int padding = dbus_get_padding(strlen(interfaz));
-    unsigned int size_of_buffer = padding + (strlen(interfaz)+1) + 8;
+    unsigned int size_of_buffer=padding + (strlen(interfaz)+1) + BYTES_INI_OPC;
     char *buffer = (char *) malloc(size_of_buffer);
     memset(buffer, 0, size_of_buffer);
     uint32_t length_interfaz = to_little_endian(strlen(interfaz));
-    buffer[0] = 2;
-    buffer[1] = 1;
+    buffer[0] = TIPO_INTERFAZ;
+    buffer[1] = CANT_STRINGS;
     buffer[2] = 's';
-    buffer[3] = 0;
+    buffer[3] = BYTE_FIN_STRING;
     *(int *) &buffer[4] = length_interfaz;
     for (int i = 0; i < (length_interfaz); i++){
         buffer[4 + sizeof(length_interfaz) + i] = interfaz[i];
@@ -99,10 +99,10 @@ int dbus_set_metodo(char *metodo, char *array_opt, size_t array_opt_pos){
     char *buffer = (char *) malloc(size_of_buffer);
     memset(buffer, 0, size_of_buffer);
     uint32_t length_metodo = to_little_endian(strlen(metodo));
-    buffer[0] = 3;
-    buffer[1] = 1;
+    buffer[0] = TIPO_METODO;
+    buffer[1] = CANT_STRINGS;
     buffer[2] = 's';
-    buffer[3] = 0;
+    buffer[3] = BYTE_FIN_STRING;
     *(int *) &buffer[4] = length_metodo;
     for (int i = 0; i < (length_metodo); i++){
         buffer[4 + sizeof(length_metodo) + i] = metodo[i];
@@ -117,10 +117,10 @@ int dbus_set_firma(int cant_parametros, char *array_opt, size_t array_opt_pos){
     unsigned int size_of_buffer = padding + cant_parametros + 6;
     char *buffer = (char *) malloc(size_of_buffer);
     memset(buffer, 0, size_of_buffer);
-    buffer[0] = 9;
-    buffer[1] = 1;
+    buffer[0] = TIPO_FIRMA;
+    buffer[1] = CANT_STRINGS;
     buffer[2] = 'g';
-    buffer[3] = 0;
+    buffer[3] = BYTE_FIN_STRING;
     buffer[4] = cant_parametros;
     for (int i = 0; i < cant_parametros; i++){
         buffer[5+i] = 's'; 

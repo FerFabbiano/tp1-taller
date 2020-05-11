@@ -8,6 +8,15 @@
 #include "common_file_manage.h"
 #include "common_others.h"
 
+#define TIPO_RUTA 1
+#define TIPO_DESTINO 6
+#define TIPO_INTERFAZ 2
+#define TIPO_FIRMA 9
+#define TIPO_METODO 3
+#define CANT_STRINGS 1
+#define BYTES_INI_OPC 8
+#define BYTE_FIN_STRING 0
+
 /* Inicializo el protocolo, leo linea proceso, y envio */
 int dbus_init_protocol(const char *path, socket_t *self);
 

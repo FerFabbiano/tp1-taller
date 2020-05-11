@@ -8,7 +8,7 @@
 int decoder_get_size_of_array_opt(char *header){
     uint32_t numero = 0;
     char *buff = (char*) &numero;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < sizeof(int); i++){
         buff[i] = header[12+i];
     }
     numero = to_little_endian(numero);
@@ -18,7 +18,7 @@ int decoder_get_size_of_array_opt(char *header){
 int decoder_get_size_of_body(char *header){
     uint32_t numero = 0;
     char *buff = (char*) &numero;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < sizeof(int); i++){
         buff[i] = header[4+i];
     }
     numero = to_little_endian(numero);
@@ -31,11 +31,11 @@ int decoder_get_size_of_body(char *header){
 data_t decoder_get_ruta(char *array_opt, size_t pos_array_opt, data_t data){
     uint32_t numero = 0;
     char *buff = (char*) &numero;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < sizeof(int); i++){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    memcpy(data.ruta, &array_opt[pos_array_opt + 8], numero);
+    memcpy(data.ruta, &array_opt[pos_array_opt + BYTES_INI_OPC], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
     return data;
@@ -44,11 +44,11 @@ data_t decoder_get_ruta(char *array_opt, size_t pos_array_opt, data_t data){
 data_t decoder_get_destino(char *array_opt, size_t pos_array_opt, data_t data){
     uint32_t numero = 0;
     char *buff = (char*) &numero;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < sizeof(int); i++){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    memcpy(data.destino, &array_opt[pos_array_opt + 8], numero);
+    memcpy(data.destino, &array_opt[pos_array_opt + BYTES_INI_OPC], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
     return data;
@@ -57,11 +57,11 @@ data_t decoder_get_destino(char *array_opt, size_t pos_array_opt, data_t data){
 data_t decoder_get_interfaz(char *array_opt, size_t pos_array_opt, data_t data){
     uint32_t numero = 0;
     char *buff = (char*) &numero;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < sizeof(int); i++){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    memcpy(data.interfaz, &array_opt[pos_array_opt + 8], numero);
+    memcpy(data.interfaz, &array_opt[pos_array_opt + BYTES_INI_OPC], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
     return data;
@@ -70,11 +70,11 @@ data_t decoder_get_interfaz(char *array_opt, size_t pos_array_opt, data_t data){
 data_t decoder_get_metodo(char *array_opt, size_t pos_array_opt, data_t data){
     uint32_t numero = 0;
     char *buff = (char*) &numero;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < sizeof(int); i++){
         buff[i] = array_opt[pos_array_opt + 4 + i];
     }
     numero = to_little_endian(numero);
-    memcpy(data.metodo, &array_opt[pos_array_opt + 8], numero);
+    memcpy(data.metodo, &array_opt[pos_array_opt + BYTES_INI_OPC], numero);
     int padding = dbus_get_padding(numero);
     data.pos_array_opt += padding + numero + 9;
     return data;
@@ -83,14 +83,14 @@ data_t decoder_get_metodo(char *array_opt, size_t pos_array_opt, data_t data){
 data_t decoder_manage_type(int type, char *array_opt, 
 size_t pos_array_opt, data_t data){
     switch (type){
-        case 1: data = decoder_get_ruta(array_opt, pos_array_opt, data);
-        break;
-        case 2: data = decoder_get_interfaz(array_opt, pos_array_opt, data);
-        break;
-        case 3: data = decoder_get_metodo(array_opt, pos_array_opt, data);
-        break;
-        case 6: data = decoder_get_destino(array_opt, pos_array_opt, data);
-        break;
+        case TIPO_RUTA: data = decoder_get_ruta(
+            array_opt, pos_array_opt, data); break;
+        case TIPO_INTERFAZ: data = decoder_get_interfaz(
+            array_opt, pos_array_opt, data); break;
+        case TIPO_METODO: data = decoder_get_metodo(
+            array_opt, pos_array_opt, data); break;
+        case TIPO_DESTINO: data = decoder_get_destino(
+            array_opt, pos_array_opt, data); break;
         default: break;
     }
     return data;
@@ -119,7 +119,7 @@ int decoder_print_data(char *array_opt, size_t size_array_opt){
 body_t decoder_get_parameter(char *body, size_t pos_body, body_t data){
     uint32_t numero = 0;
     char *buff = (char*) &numero;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < sizeof(int); i++){
         buff[i] = body[pos_body + i];
     }
     numero = to_little_endian(numero);
@@ -151,7 +151,7 @@ int decoder_print_body(char *body, size_t size_body){
 int decoder_print_id_number(char *header){
     uint32_t numero = 0;
     char *buff = (char*) &numero;
-    for (int i = 0; i < 4; i++){
+    for (int i = 0; i < sizeof(int); i++){
         buff[i] = header[8 + i];
     }
     numero = to_little_endian(numero);
