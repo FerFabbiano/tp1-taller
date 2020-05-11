@@ -1,4 +1,3 @@
-#include "common_file_manage.h"
 #include "common_dbus.h"
 #include "common_socket.h"
 

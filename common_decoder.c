@@ -1,9 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdint.h>
 #include "common_decoder.h"
 #include "common_others.h"
+#include "common_dbus.h"
 
 int decoder_get_size_of_array_opt(char *header){
     uint32_t numero = 0;

@@ -1,10 +1,8 @@
 #ifndef DECODER_H
 #define DECODER_H
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include "common_dbus.h"
+#include "common_socket.h"
 
 #define MAX_SIZE 128
 

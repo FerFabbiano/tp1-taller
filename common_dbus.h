@@ -2,11 +2,7 @@
 #define DBUS_H
 
 #include <stdlib.h>
-#include <stdint.h>
-#include <netinet/in.h> 
 #include "common_socket.h"
-#include "common_file_manage.h"
-#include "common_others.h"
 
 #define TIPO_RUTA 1
 #define TIPO_DESTINO 6
@@ -16,6 +12,14 @@
 #define CANT_STRINGS 1
 #define BYTES_INI_OPC 8
 #define BYTE_FIN_STRING 0
+
+/* Es un número que surge ante la necesidad de calcular el padding para este 
+caso en particular. Asumo que no voy a tener mas de 26 parámetros. 
+(34 - cant.parametros) % 8 = padding. Esto resulta asi ya que para la firma, 
+se va a agregar un string 's' por cada parámetro. Por tanto tengo los 4 bytes
+iniciales de la opción, mas el byte indicanco la cantidad de parámetros,
+mas un byte por cada parámetros indicando el tipo del mismo.  */
+#define PADDING_ARGUMENTOS 34
 
 /* Inicializo el protocolo, leo linea proceso, y envio */
 int dbus_init_protocol(const char *path, socket_t *self);

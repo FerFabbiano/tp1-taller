@@ -1,10 +1,9 @@
 #ifndef FILE_MANAGE_H
 #define FILE_MANAGE_H
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
-#include "common_socket.h"
 
 /* Obtengo linea del archivo, puede contener bytes que no me interesan. */
 char* file_read_line(FILE *fp);

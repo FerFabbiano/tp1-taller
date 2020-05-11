@@ -1,4 +1,6 @@
 #include "common_dbus.h"
+#include "common_others.h"
+#include "common_file_manage.h"
 
 int dbus_set_array_opciones(char *clean_line, char *array_opt){
     size_t array_opt_pos = 0;
@@ -113,7 +115,7 @@ int dbus_set_metodo(char *metodo, char *array_opt, size_t array_opt_pos){
 }
 
 int dbus_set_firma(int cant_parametros, char *array_opt, size_t array_opt_pos){
-    int padding = (34 - cant_parametros) % 8; 
+    int padding = (PADDING_ARGUMENTOS - cant_parametros) % 8; 
     unsigned int size_of_buffer = padding + cant_parametros + 6;
     char *buffer = (char *) malloc(size_of_buffer);
     memset(buffer, 0, size_of_buffer);
