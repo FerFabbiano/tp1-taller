@@ -135,9 +135,8 @@ int dbus_set_firma(int cant_parametros, char *array_opt, size_t array_opt_pos){
 
 int dbus_set_body(char *clean_line, char *body){
     int cant_param = file_get_amout_of_parametres(clean_line);
-    if (cant_param == 0){
+    if (cant_param == 0)
         return 0;
-    }
     int pos_line = 0;
     char parameter[256];
     uint32_t pos_body = 0;
@@ -156,10 +155,9 @@ int dbus_set_body(char *clean_line, char *body){
 }
 
 int dbus_set_data_header(uint32_t id_number, char *clean_line, char *header){
-    char array_opt[512];
-    char body[512];
-    memset(array_opt, 0, sizeof(array_opt));
-    memset(body, 0, sizeof(body));
+    int line_length = file_get_size_of_line(clean_line);
+    char *array_opt = (char*) malloc(line_length * 2);
+    char *body = (char*) malloc(line_length * 5);
     uint32_t body_length = to_little_endian(dbus_set_body(clean_line, body));
     header[0] = 'l';
     header[1] = 1;
@@ -170,6 +168,8 @@ int dbus_set_data_header(uint32_t id_number, char *clean_line, char *header){
     uint32_t opt_array_length = dbus_set_array_opciones(clean_line, array_opt);
     * (int *) &header[12] = opt_array_length;
     memcpy(&header[16], array_opt, opt_array_length);
+    free(array_opt);
+    free(body);
     return 16 + opt_array_length;
 }
 
@@ -179,12 +179,15 @@ int dbus_init_protocol(const char* path, socket_t *self){
     uint32_t id_number = 1;
     int bytes_clean_read = 0, header_length = 0, body_length = 0;
     while (!feof(fp)){
-        char header[512], body[256], mssg_rcv[4] = "";
         fseek(fp, bytes_clean_read, SEEK_SET);
         char *read_line = file_read_line(fp);
         char *clean_line = (char*) malloc(strlen(read_line));
         memset(clean_line, 0, strlen(read_line));
         file_clean_line(read_line, clean_line);
+        int line_length = file_get_size_of_line(clean_line);
+        char *header = (char *) malloc(line_length*2 + 56);
+        char *body = (char *) malloc(line_length * 5);
+        char mssg_rcv[4] = "";
         header_length = dbus_set_data_header(id_number, clean_line, header);
         body_length = dbus_set_body(clean_line, body);
         socket_send(self, header, 16);
@@ -197,6 +200,8 @@ int dbus_init_protocol(const char* path, socket_t *self){
         bytes_clean_read += strlen(clean_line) + 1;
         id_number ++;
         free(clean_line);
+        free(header);
+        free(body);
     }
     fclose(fp);
     return 0;

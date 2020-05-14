@@ -89,3 +89,13 @@ FILE* file_open(const char *path){
     }
     return fp;
 }
+
+int file_get_size_of_line(char *clean_line){
+    int line_length = 0;
+    int i = 0;
+    while (clean_line[i] != ')'){
+        line_length ++;
+        i++;
+    }
+    return line_length;
+}
