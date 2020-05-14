@@ -26,6 +26,4 @@ int file_get_parameter(char *clean_line, char *parameter, size_t pos);
 el file pointer del stdin */
 FILE* file_open(const char *path);
 
-int file_get_size_of_line(char *clean_line);
-
 #endif
